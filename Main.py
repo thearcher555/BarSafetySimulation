@@ -1,32 +1,36 @@
 #Bar object to hold all variables
 #Array of bars will be used to index all entries
 class Bar:
-    name = ""
-    maxPopulation = -1
-    currentPopulation = -1
-    capacity = .001
+    def __init__(self,name,maxPopulation, currentPopulation=-1, capacity = .001):
+        self.name = str(name)
+        self.maxPopulation = int(maxPopulation)
 
-    def setMaxPop(num):
+    def setMaxPop(self, num):
         maxPopulation = num
 
-    def calculateCapacity():
+    def calculateCapacity(self):
         capacity = currentPopulation/maxPopulation
 
-    def updatePop(num):
+    def updatePop(self, num):
         currentPopulation = num
         calculateCapacity()
 
-    def setName(newName):
+    def setName(self, newName):
         name = newName
 
 Bars = []
 
 #Create way to import bar data from text file
-with open ('NewBrunswickBars.txt', 'r') as reader:
-    Bars.append()
+with open ('NewBrunswickBars.txt', 'r') as f:
+    for line in f:
+        line.split(",")
+        num = type(int(line[1]))
+        temp = Bar(line[0],num)
+        Bars.append(temp)
 
 
 #Simulation code
+
 
 
 
