@@ -1,19 +1,22 @@
 #Bar object to hold all variables
 #Array of bars will be used to index all entries
 class Bar:
-    def __init__(self,name,maxPopulation, currentPopulation=-1, capacity = .001):
+    # notes: self.currentPopulation should always begin at -1, self.capacity at .001
+    def __init__(self,name,maxPopulation, currentPopulation, capacity):
         self.name = str(name)
         self.maxPopulation = int(maxPopulation)
+        self.currentPopulation = int(currentPopulation)
+        self.capacity = int(capacity)
 
     def setMaxPop(self, num):
         maxPopulation = num
 
     def calculateCapacity(self):
-        capacity = currentPopulation/maxPopulation
+        capacity = self.currentPopulation/self.maxPopulation
 
     def updatePop(self, num):
-        currentPopulation = num
-        calculateCapacity()
+        self.currentPopulation = num
+        self.calculateCapacity()
 
     def setName(self, newName):
         name = newName
