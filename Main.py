@@ -23,18 +23,6 @@ class Bar:
     def setName(self, newName):
         name = newName
 
-Bars = []
-
-# Imports lines from text file, splits name and population
-# into Bar object, and is added to Bars array
-with open ('NewBrunswickBars.txt', 'r') as f:
-    for line in f:
-        line = line.split(",")
-        num = int(line[1])
-        temp = Bar(line[0],num)
-        Bars.append(temp)
-
-
 #Simulation Code
 #Bar starts at some percentage full on construction (see bar constructor to configure)
 #Population is shuffled a series of times to randomize population distribution
@@ -44,11 +32,21 @@ with open ('NewBrunswickBars.txt', 'r') as f:
 #we need to make some sort of 'weighting' on the larger bars so people
 #are more likely to chose them than the smaller ones
 
-print(Bars[5].currentPopulation) #test
+if __name__ == "__main__":
 
+    Bars = []
+    # Imports lines from text file, splits name and population
+    # into Bar object, and is added to Bars array
+    with open ('NewBrunswickBars.txt', 'r') as f:
+        for line in f:
+            line = line.split(",")
+            num = int(line[1])
+            temp = Bar(line[0],num)
+            Bars.append(temp)
 
-
-
+    print("Printing the initial population of all bars:")
+    for x in Bars:
+        print(x.name + ": " + str(x.currentPopulation))
 
 
 
