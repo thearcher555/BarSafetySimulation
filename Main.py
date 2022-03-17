@@ -1,7 +1,6 @@
 import random
 
-#Bar object to hold all variables
-#Array of bars will be used to index all entries
+# Bar class: objects contain name, max population, current population, and capacity of the bar
 class Bar:
     # notes: self.currentPopulation should always begin at -1, self.capacity at .001
     def __init__(self,name,maxPopulation,):
@@ -23,6 +22,19 @@ class Bar:
     def setName(self, newName):
         name = newName
 
+# Simulation class that takes in an array of Bars
+# provides methods to simulate the movement of people and other calculations
+class Simulation:
+    #takes in the Bar array which is created from a text document
+    def __init__(self, Bars = []):
+        self.BarsList = []
+        self.BarsList = Bars
+
+    def getPopulations(self):
+        print("\nCurrent Populations of All Bars:")
+        for x in self.BarsList:
+            print(x.name + ": " + str(x.currentPopulation))
+
 #Simulation Code
 #Bar starts at some percentage full on construction (see bar constructor to configure)
 #Population is shuffled a series of times to randomize population distribution
@@ -32,9 +44,11 @@ class Bar:
 #we need to make some sort of 'weighting' on the larger bars so people
 #are more likely to chose them than the smaller ones
 
-if __name__ == "__main__":
-
+def readBars():
+    #Bar object to hold all variables
+    #Array of bars will be used to index all entries
     Bars = []
+
     # Imports lines from text file, splits name and population
     # into Bar object, and is added to Bars array
     with open ('NewBrunswickBars.txt', 'r') as f:
@@ -43,10 +57,13 @@ if __name__ == "__main__":
             num = int(line[1])
             temp = Bar(line[0],num)
             Bars.append(temp)
+    return Bars
 
-    print("Printing the initial population of all bars:")
-    for x in Bars:
-        print(x.name + ": " + str(x.currentPopulation))
+
+if __name__ == "__main__":
+    Bars = readBars()
+    Simulator = Simulation(Bars)
+    Simulator.getPopulations()
 
 
 
