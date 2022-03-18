@@ -35,11 +35,17 @@ class Simulation:
         self.totalPopulation = 0
 
     def getBarData(self):
-        print("\nData of Bars: ")
+        print("\n List of all Bars: ")
         for x in self.BarsList:
             print(x.name + ": " + str(x.currentPopulation) + " out of " + str(x.maxPopulation))
             x.calculateCapacity()
-            print("      Capacity: " + str(x.capacity) + "\n")
+            print("   Capacity: " + str(x.capacity) + "\n")
+        
+        arr = self.barChoice()
+        print("Recommended Bars:")
+        for x in arr:
+            print(x.name + ", ")
+
             
     #finds the total number of people that all bars in NB can hold
     def setTotalPopulation(self):
@@ -71,23 +77,52 @@ class Simulation:
                 self.BarsList[index].currentPopulation += 1
                 movingPeople -= 1
 
-    #function to choose the 5 'best' bars of an array of bars
-    #picks the 5 median bars based of capacity
-    #can be modified later to have an offset
+    # method that simulates people moving from bar to bar, will be run multiple times over the course
+    # of the simulation
+    def shmovement(self):
+        movingPeople = 0
+
+        for x in self.BarsList:
+            tempMoving = int(.5*x.currentPopulation)
+            movingPeople += tempMoving
+            x.currentPopulation -= tempMoving
+
+        length = len(self.BarsList)
+        inverseList = list()
+
+        for x in self.BarsList:
+            inverse = x.maxPopulation/self.totalPopulation
+            inverseList.append(inverse)
+
+        while (movingPeople > 0):
+            index = random.randint(0, length-1)
+            chance = random.random()
+
+            if (self.BarsList[index].currentPopulation >= self.BarsList[index].maxPopulation):
+                continue
+
+            if chance < inverseList[index]:
+                self.BarsList[index].currentPopulation += 1
+                movingPeople -= 1
+        
+
+    # Method to generate recommendations for bars based on capacity. Begins with a capacity
+    # window of 65 - 70%, and increases the size of the window if there are no bars that 
+    # satisfy the threshold. Always will return 3 or 4 bars for the user.
     def barChoice(self):
         sortedBars = sorted(self.BarsList, key=lambda x: x.capacity)
         chosenBars = []
-        lower = .6
-        upper = .8
-        breakState = TRUE
+        lower = .65
+        upper = .7
+        breakState = TRUE 
 
-        while breakState:
-
-            for x in self.BarsList:
-                if(x.capacity >= lower & x.capacity <= upper):
+        while breakState is TRUE:
+            for x in sortedBars:
+                if(x.capacity >= lower and x.capacity <= upper):
                     chosenBars.append(x)
+                    sortedBars.remove(x)
         
-            if len(chosenBars) < 5:
+            if len(chosenBars) < 3:
                 if (upper + .05) <= 1:
                     upper += .05
 
@@ -95,12 +130,11 @@ class Simulation:
                     lower -= .05
             else:
                 breakState = FALSE
+            
+        if len(chosenBars) > 4:
+            chosenBars = chosenBars[0:4]
 
         return chosenBars
-        
-
-#Simulation Code
-#Population is initialized then redistributed
 
 # helper method to read from text file
 def readBars():
@@ -123,4 +157,10 @@ if __name__ == "__main__":
     Bars = readBars()
     Simulator = Simulation(Bars)
     Simulator.initializer()
+    Simulator.getBarData()
+    Simulator.shmovement()
+    Simulator.shmovement()
+    Simulator.shmovement()
+    Simulator.shmovement()
+    print("//////////////////////////////")
     Simulator.getBarData()
