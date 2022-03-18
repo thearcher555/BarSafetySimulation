@@ -4,7 +4,7 @@ import random
 
 # Bar class: objects contain name, max population, current population, and capacity of the bar
 class Bar:
-    # notes: self.currentPopulation should always begin at -1, self.capacity at .001
+    # notes: self.currentPopulation should always begin at 0, self.capacity at .001
     def __init__(self,name,maxPopulation,):
         self.name = str(name)
         self.maxPopulation = int(maxPopulation)
@@ -52,7 +52,9 @@ class Simulation:
         for x in self.BarsList:
             self.totalPopulation += x.maxPopulation
 
-    
+    # initializes all bars with a population, proportional to their stake in total population of all bars
+    # ensures that higher capacity bars will have more people than smaller bars 
+    # 70% (configurable) of total population is calculated, then distributed among all bars
     def initializer(self):
 
         self.setTotalPopulation()
@@ -64,7 +66,7 @@ class Simulation:
             inverse = x.maxPopulation/self.totalPopulation
             inverseList.append(inverse)
 
-        movingPeople = int(.65*self.totalPopulation)
+        movingPeople = int(.70*self.totalPopulation)
 
         while (movingPeople > 0):
             index = random.randint(0, length-1)
@@ -78,21 +80,22 @@ class Simulation:
                 movingPeople -= 1
 
     # method that simulates people moving from bar to bar, will be run multiple times over the course
-    # of the simulation
+    # of the simulation.  A bar hotness variable is generated to represent desire to leave or go to bar
+    # 40% (configurable) of population is removed, then added back in accordance to bar hotness
     def shmovement(self):
         movingPeople = 0
 
         for x in self.BarsList:
-            tempMoving = int(.5*x.currentPopulation)
+            tempMoving = int(.40*x.currentPopulation)
             movingPeople += tempMoving
             x.currentPopulation -= tempMoving
 
         length = len(self.BarsList)
-        inverseList = list()
+        hotnessList = list()
 
         for x in self.BarsList:
-            inverse = x.maxPopulation/self.totalPopulation
-            inverseList.append(inverse)
+            hotness = random.random();
+            hotnessList.append(hotness)
 
         while (movingPeople > 0):
             index = random.randint(0, length-1)
@@ -101,14 +104,15 @@ class Simulation:
             if (self.BarsList[index].currentPopulation >= self.BarsList[index].maxPopulation):
                 continue
 
-            if chance < inverseList[index]:
+            if chance < hotnessList[index]:
                 self.BarsList[index].currentPopulation += 1
                 movingPeople -= 1
         
 
     # Method to generate recommendations for bars based on capacity. Begins with a capacity
-    # window of 65 - 70%, and increases the size of the window if there are no bars that 
+    # window of 65 - 70% (configurable), and increases the size of the window if there are no bars that 
     # satisfy the threshold. Always will return 3 or 4 bars for the user.
+    # parameters are set so a full bar (95 - 100% capacity) will never be recommended
     def barChoice(self):
         sortedBars = sorted(self.BarsList, key=lambda x: x.capacity)
         chosenBars = []
@@ -123,7 +127,7 @@ class Simulation:
                     sortedBars.remove(x)
         
             if len(chosenBars) < 3:
-                if (upper + .05) <= 1:
+                if (upper + .05) < 1:
                     upper += .05
 
                 if (lower - .05) > 0:
@@ -152,7 +156,7 @@ def readBars():
             Bars.append(temp)
     return Bars
 
-
+#main method to make function calls
 if __name__ == "__main__":
     Bars = readBars()
     Simulator = Simulation(Bars)
@@ -162,5 +166,6 @@ if __name__ == "__main__":
     Simulator.shmovement()
     Simulator.shmovement()
     Simulator.shmovement()
+
     print("//////////////////////////////")
     Simulator.getBarData()
