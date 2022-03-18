@@ -1,4 +1,5 @@
 from configparser import MAX_INTERPOLATION_DEPTH
+from pickle import FALSE, TRUE
 import random
 
 # Bar class: objects contain name, max population, current population, and capacity of the bar
@@ -76,24 +77,27 @@ class Simulation:
     def barChoice(self):
         sortedBars = sorted(self.BarsList, key=lambda x: x.capacity)
         chosenBars = []
+        lower = .6
+        upper = .8
+        breakState = TRUE
 
-        for x in self.BarsList:
-            if(x.capacity >= .6 & x.capacity <= .8):
-                chosenBars.append(x)
+        while breakState:
 
-        if len(chosenBars) == 0:
-
-            if len(self.BarsList) >= 5:
-                length = int(len(self.BarsList) / 2)
-                chosenBars.append(sortedBars[length+1])
-                chosenBars.append(sortedBars[length+2])
-                chosenBars.append(sortedBars[length])
-                chosenBars.append(sortedBars[length-1])
-                chosenBars.append(sortedBars[length-2])
-            else:
-                chosenBars = self.BarsList
+            for x in self.BarsList:
+                if(x.capacity >= lower & x.capacity <= upper):
+                    chosenBars.append(x)
         
+            if len(chosenBars) < 5:
+                if (upper + .05) <= 1:
+                    upper += .05
+
+                if (lower - .05) > 0:
+                    lower -= .05
+            else:
+                breakState = FALSE
+
         return chosenBars
+        
 
 #Simulation Code
 #Population is initialized then redistributed
