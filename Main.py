@@ -54,11 +54,7 @@ class Simulation:
         
         return chosenBars
 
-
-
-
 #Simulation Code
-#Bar starts at some percentage full on construction (see bar constructor to configure)
 #Population is shuffled a series of times to randomize population distribution
 
 #i've been running into a problem with all my ideas for the shuffling
