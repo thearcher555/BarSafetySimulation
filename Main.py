@@ -23,6 +23,14 @@ class Bar:
     def setName(self, newName):
         name = newName
 
+#function to choose the 5 'best' bars of an array of bars
+#picks the 5 median bars based of capacity
+#can be modified later to have an offset
+    def barChoice(Bars):
+        for x in Bars:
+            
+
+
 Bars = []
 
 # Imports lines from text file, splits name and population
@@ -33,6 +41,7 @@ with open ('NewBrunswickBars.txt', 'r') as f:
         num = int(line[1])
         temp = Bar(line[0],num)
         Bars.append(temp)
+
 
 
 #Simulation Code
