@@ -22,6 +22,18 @@ class Bar:
     def setName(self, newName):
         name = newName
 
+
+Bars = []
+# Imports lines from text file, splits name and population
+# into Bar object, and is added to Bars array
+with open ('NewBrunswickBars.txt', 'r') as f:
+    for line in f:
+        line = line.split(",")
+        num = int(line[1])
+        temp = Bar(line[0],num)
+        Bars.append(temp)
+
+
 # Simulation class that takes in an array of Bars
 # provides methods to simulate the movement of people and other calculations
 class Simulation:
@@ -34,6 +46,14 @@ class Simulation:
         print("\nCurrent Populations of All Bars:")
         for x in self.BarsList:
             print(x.name + ": " + str(x.currentPopulation))
+
+    #function to choose the 5 'best' bars of an array of bars
+    #picks the 5 median bars based of capacity
+    #can be modified later to have an offset
+    def barChoice(self):
+        for x in Bars:
+            
+
 
 #Simulation Code
 #Bar starts at some percentage full on construction (see bar constructor to configure)
