@@ -6,7 +6,7 @@ class Bar:
     def __init__(self,name,maxPopulation,):
         self.name = str(name)
         self.maxPopulation = int(maxPopulation)
-        self.currentPopulation = int(maxPopulation * .65) #bar fullness configuration
+        self.currentPopulation = 0
         self.capacity = .001
 
     def setMaxPop(self, num):
