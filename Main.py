@@ -66,6 +66,7 @@ class Simulation:
 #we need to make some sort of 'weighting' on the larger bars so people
 #are more likely to chose them than the smaller ones
 
+# helper method to read from text file
 def readBars():
     #Bar object to hold all variables
     #Array of bars will be used to index all entries
