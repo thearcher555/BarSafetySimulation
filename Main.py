@@ -1,3 +1,4 @@
+from configparser import MAX_INTERPOLATION_DEPTH
 import random
 
 # Bar class: objects contain name, max population, current population, and capacity of the bar
@@ -13,7 +14,7 @@ class Bar:
         maxPopulation = num
 
     def calculateCapacity(self):
-        capacity = self.currentPopulation/self.maxPopulation
+        self.capacity = self.currentPopulation/self.maxPopulation
 
     def updatePop(self, num):
         self.currentPopulation = num
@@ -30,11 +31,44 @@ class Simulation:
     def __init__(self, Bars = []):
         self.BarsList = []
         self.BarsList = Bars
+        self.totalPopulation = 0
 
-    def getPopulations(self):
-        print("\nCurrent Populations of All Bars:")
+    def getBarData(self):
+        print("\nData of Bars: ")
         for x in self.BarsList:
-            print(x.name + ": " + str(x.currentPopulation))
+            print(x.name + ": " + str(x.currentPopulation) + " out of " + str(x.maxPopulation))
+            x.calculateCapacity()
+            print("      Capacity: " + str(x.capacity) + "\n")
+            
+    #finds the total number of people that all bars in NB can hold
+    def setTotalPopulation(self):
+        for x in self.BarsList:
+            self.totalPopulation += x.maxPopulation
+
+
+    def initializer(self):
+
+        self.setTotalPopulation()
+
+        length = len(self.BarsList)
+        inverseList = list()
+
+        for x in self.BarsList:
+            inverse = x.maxPopulation/self.totalPopulation
+            inverseList.append(inverse)
+
+        movingPeople = int(.65*self.totalPopulation)
+
+        while (movingPeople > 0):
+            index = random.randint(0, length-1)
+            chance = random.random()
+
+            if (self.BarsList[index].currentPopulation >= self.BarsList[index].maxPopulation):
+                continue
+
+            if chance < inverseList[index]:
+                self.BarsList[index].currentPopulation += 1
+                movingPeople -= 1
 
     #function to choose the 5 'best' bars of an array of bars
     #picks the 5 median bars based of capacity
@@ -82,15 +116,5 @@ def readBars():
 if __name__ == "__main__":
     Bars = readBars()
     Simulator = Simulation(Bars)
-    Simulator.getPopulations()
-
-
-
-
-
-
-
-
-
-
-
+    Simulator.initializer()
+    Simulator.getBarData()
