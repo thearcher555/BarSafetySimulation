@@ -83,15 +83,15 @@ class Simulation:
 
         if len(chosenBars) == 0:
 
-            if len(Bars) >= 5:
-                length = int(len(Bars) / 2)
+            if len(self.BarsList) >= 5:
+                length = int(len(self.BarsList) / 2)
                 chosenBars.append(sortedBars[length+1])
                 chosenBars.append(sortedBars[length+2])
                 chosenBars.append(sortedBars[length])
                 chosenBars.append(sortedBars[length-1])
                 chosenBars.append(sortedBars[length-2])
             else:
-                chosenBars = Bars
+                chosenBars = self.BarsList
         
         return chosenBars
 
