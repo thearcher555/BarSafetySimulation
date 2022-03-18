@@ -163,9 +163,5 @@ if __name__ == "__main__":
     Simulator.initializer()
     Simulator.getBarData()
     Simulator.shmovement()
-    Simulator.shmovement()
-    Simulator.shmovement()
-    Simulator.shmovement()
-
     print("//////////////////////////////")
     Simulator.getBarData()
