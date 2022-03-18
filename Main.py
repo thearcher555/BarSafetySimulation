@@ -1,7 +1,6 @@
 import random
 
-#Bar object to hold all variables
-#Array of bars will be used to index all entries
+# Bar class: objects contain name, max population, current population, and capacity of the bar
 class Bar:
     # notes: self.currentPopulation should always begin at -1, self.capacity at .001
     def __init__(self,name,maxPopulation,):
@@ -23,16 +22,8 @@ class Bar:
     def setName(self, newName):
         name = newName
 
-#function to choose the 5 'best' bars of an array of bars
-#picks the 5 median bars based of capacity
-#can be modified later to have an offset
-    def barChoice(Bars):
-        for x in Bars:
-            
-
 
 Bars = []
-
 # Imports lines from text file, splits name and population
 # into Bar object, and is added to Bars array
 with open ('NewBrunswickBars.txt', 'r') as f:
@@ -42,6 +33,26 @@ with open ('NewBrunswickBars.txt', 'r') as f:
         temp = Bar(line[0],num)
         Bars.append(temp)
 
+
+# Simulation class that takes in an array of Bars
+# provides methods to simulate the movement of people and other calculations
+class Simulation:
+    #takes in the Bar array which is created from a text document
+    def __init__(self, Bars = []):
+        self.BarsList = []
+        self.BarsList = Bars
+
+    def getPopulations(self):
+        print("\nCurrent Populations of All Bars:")
+        for x in self.BarsList:
+            print(x.name + ": " + str(x.currentPopulation))
+
+    #function to choose the 5 'best' bars of an array of bars
+    #picks the 5 median bars based of capacity
+    #can be modified later to have an offset
+    def barChoice(self):
+        for x in Bars:
+            
 
 
 #Simulation Code
@@ -53,11 +64,26 @@ with open ('NewBrunswickBars.txt', 'r') as f:
 #we need to make some sort of 'weighting' on the larger bars so people
 #are more likely to chose them than the smaller ones
 
-print(Bars[5].currentPopulation) #test
+def readBars():
+    #Bar object to hold all variables
+    #Array of bars will be used to index all entries
+    Bars = []
+
+    # Imports lines from text file, splits name and population
+    # into Bar object, and is added to Bars array
+    with open ('NewBrunswickBars.txt', 'r') as f:
+        for line in f:
+            line = line.split(",")
+            num = int(line[1])
+            temp = Bar(line[0],num)
+            Bars.append(temp)
+    return Bars
 
 
-
-
+if __name__ == "__main__":
+    Bars = readBars()
+    Simulator = Simulation(Bars)
+    Simulator.getPopulations()
 
 
 
