@@ -41,7 +41,7 @@ class Simulation:
     #can be modified later to have an offset
     def barChoice(self):
         sortedBars = sorted(Bars, key=lambda x: x.capacity)
-        chosenBars = [];
+        chosenBars = []
         if len(Bars) >= 5:
             length = int(len(Bars) / 2)
             chosenBars.append(sortedBars[length+1])
