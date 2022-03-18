@@ -52,7 +52,7 @@ class Simulation:
         for x in self.BarsList:
             self.totalPopulation += x.maxPopulation
 
-
+    
     def initializer(self):
 
         self.setTotalPopulation()
