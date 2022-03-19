@@ -178,12 +178,6 @@ def readBars():
             Bars.append(temp)
     return Bars
 
-
-
-
-
-
-
 #main method to make function calls
 if __name__ == "__main__":
     Bars = readBars()
@@ -193,6 +187,3 @@ if __name__ == "__main__":
     Simulator.shmovement()
     print("//////////////////////////////")
     Simulator.getBarData()
-
-
-
