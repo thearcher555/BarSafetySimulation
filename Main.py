@@ -1,8 +1,6 @@
 from configparser import MAX_INTERPOLATION_DEPTH
 from pickle import FALSE, TRUE
 import random
-import numpy as np
-import matplotlib.pyplot as plt
 
 # Bar class: objects contain name, max population, current population, and capacity of the bar
 class Bar:
@@ -43,30 +41,10 @@ class Simulation:
             x.calculateCapacity()
             print("   Capacity: " + str(x.capacity) + "\n")
         
-        chosen_dict= {} #chosen dict maps bars to their current cpacities
         arr = self.barChoice()
         print("Recommended Bars:")
         for x in arr:
             print(x.name + ", ")
-            chosen_dict[x.name]=''
-
-        for x in self.BarsList:
-            if x.name in chosen_dict:
-                x.calculateCapacity()
-                chosen_dict[x.name] = x.capacity
-
-        # displays recommended bars and their current percent capacities
-        barnames = list(chosen_dict.keys())
-        capacities = list(np.round(list(chosen_dict.values()), decimals=2)*100)
-        fig = plt.figure(figsize = (8,5))
-        plt.ylim(0,100)
-        plt.yticks(range(0,101,10))
-        plt.title('Recommended Bars and Their Capacities',fontweight='bold')
-        plt.xlabel('Bars',fontweight='bold')
-        plt.ylabel('Percent Capacity\n(out of 100%)',fontweight='bold')
-        plt.bar(barnames, capacities)
-        plt.show()
-        
 
             
     #finds the total number of people that all bars in NB can hold
